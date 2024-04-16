@@ -7,7 +7,9 @@
         <div class="row">
             <div class="col-8" style="font-family: 'Open sans', sans-serif; font-size:  0.9rem; font-weight:900; color:#4d5155;">DATA INTENSITAS CAHAYA</div>
             <div class="col-4" style="position: relative;">
-                <button type="button" id="historyButton" style="position: absolute; top: 0; right: 0; border: none; background: #7d52a0; cursor: pointer; font-family: 'Open sans', sans-serif; font-size:  0.9rem; font-weight:900; color: white;"> &gt;&gt;&gt;</button>
+                <a href="/riwayatldr" style="text-decoration: none;">
+                    <button type="button" id="historyButton" style="position: absolute; top: 0; right: 0; border: none; background: #7d52a0; cursor: pointer; font-family: 'Open sans', sans-serif; font-size: 0.9rem; font-weight: 900; color: white;"> &gt;&gt;&gt;</button>
+                </a>
             </div>
         </div>
         <div class="row justify-content-center align-items-center">
@@ -46,7 +48,9 @@
         <div class="row">
             <div class="col-8" style="font-family: 'Open sans', sans-serif; font-size:  0.9rem; font-weight:900; color:#4d5155;">KONTROLING PENYINARAN</div>
             <div class="col-4" style="position: relative;">
-                <button type="button" id="historyButton" style="position: absolute; top: 0; right: 0; border: none; background: #7d52a0; color: #000; cursor: pointer; font-family: 'Open sans', sans-serif; font-size:  0.9rem; font-weight:900; color:white;">Histori Penyinaran&gt;&gt;&gt;</button>
+                <a href="/riwayatpenyinaran" style="text-decoration: none;">
+                    <button type="button" id="historyButton" style="position: absolute; top: 0; right: 0; border: none; background: #7d52a0; color: #000; cursor: pointer; font-family: 'Open sans', sans-serif; font-size: 0.9rem; font-weight: 900; color: white;">Histori Penyinaran&gt;&gt;&gt;</button>
+                </a>
             </div>
         </div>
         
