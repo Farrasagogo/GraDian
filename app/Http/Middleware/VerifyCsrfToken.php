@@ -16,5 +16,11 @@ class VerifyCsrfToken extends Middleware
         'updatesinarauto',
         'updatesiramauto',
         'updatesinar',
+        'update-firebaseobat',
+        'update-firebaseobat2',
+        'updateobatauto',
+        'jadwal/delete/*',
+        'jadwal/update/*',
+        'jadwal/edit/*',
     ];
 }

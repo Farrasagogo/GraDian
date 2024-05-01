@@ -25,7 +25,7 @@ class PenyiramanController extends Controller
         $isChecked = $reference->getValue();
 
         return view('firebase.penyiraman.index', compact('isChecked'));
-        return view('firebase.penyiraman.index');
+
     }
     
     public function updateFirebase(Request $request)

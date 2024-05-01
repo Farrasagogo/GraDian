@@ -11,17 +11,14 @@ class SensorController extends Controller
 {
     protected $database;
     protected $firestore;
-    
 
     public function __construct(Database $database, Firestore $firestore)
     {
         $this->database = $database;
         $this->firestore = $firestore;
-
-        
     }
 
-    public function getSensorData(Request $request)
+    public function getSensorData()
     {
         $temperatureData = $this->database->getReference()->getValue();
     
