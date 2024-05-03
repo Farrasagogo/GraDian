@@ -4,36 +4,21 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
-use Kreait\Firebase\Contract\Firestore;
+
+use App\Models\Firebase\RiwayatObatModel;
 
 class RiwayatObat extends Controller
 {
-    protected $database;
-    protected $firestore;
-    
+    protected $riwayatObatModel;
 
-    public function __construct(Database $database, Firestore $firestore)
+    public function __construct(RiwayatObatModel $riwayatObatModel)
     {
-        $this->database = $database;
-        $this->firestore = $firestore;
+        $this->riwayatObatModel = $riwayatObatModel;
+    }
 
-        
-    }
-    
     public function index()
-{
-    $firestoreDatabase = $this->firestore->database();
-    $collection = $firestoreDatabase->collection('obat_log');
-    $documents = $collection->documents();
-    $documents = $collection->orderBy('dateAndTime', 'DESC')->documents();
-    $data = [];
-    foreach ($documents as $document) {
-        $data[] = [
-            'dateAndTime' => $document->data()['dateAndTime'],
-            'condition' => $document->data()['condition'],
-        ];
+    {
+        $data = $this->riwayatObatModel->getRiwayatObat();
+        return view('firebase.riwayatobat.index', compact('data'));
     }
-    return view('firebase.riwayatobat.index', compact('data'));
-}
 }

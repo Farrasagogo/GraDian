@@ -3,28 +3,23 @@
 namespace App\Http\Controllers\Firebase;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
-use Kreait\Firebase\Contract\Firestore;
+use App\Models\Firebase\SensorModel;
 
 
 class SensorController extends Controller
 {
-    protected $database;
-    protected $firestore;
+    protected $sensorModel;
 
-    public function __construct(Database $database, Firestore $firestore)
+    public function __construct(SensorModel $sensorModel)
     {
-        $this->database = $database;
-        $this->firestore = $firestore;
+        $this->sensorModel = $sensorModel;
     }
 
     public function getSensorData()
     {
-        $temperatureData = $this->database->getReference()->getValue();
-    
+        $temperatureData = $this->sensorModel->getTemperatureData();
         return response()->json($temperatureData);
     }
- 
 }
 
 

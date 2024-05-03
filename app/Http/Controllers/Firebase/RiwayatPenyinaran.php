@@ -9,32 +9,17 @@ use Kreait\Firebase\Contract\Firestore;
 
 class RiwayatPenyinaran extends Controller
 {
-    protected $database;
-    protected $firestore;
-    
+    protected $riwayatPenyinaranModel;
 
-    public function __construct(Database $database, Firestore $firestore)
+    public function __construct(RiwayatPenyinaranModel $riwayatPenyinaranModel)
     {
-        $this->database = $database;
-        $this->firestore = $firestore;
+        $this->riwayatPenyinaranModel = $riwayatPenyinaranModel;
+    }
 
-        
-    }
-    
     public function index()
-{
-    $firestoreDatabase = $this->firestore->database();
-    $collection = $firestoreDatabase->collection('sinar_log');
-    $documents = $collection->documents();
-    $documents = $collection->orderBy('dateAndTime', 'DESC')->documents();
-    $data = [];
-    foreach ($documents as $document) {
-        $data[] = [
-            'dateAndTime' => $document->data()['dateAndTime'],
-            'condition' => $document->data()['condition'],
-        ];
+    {
+        $data = $this->riwayatPenyinaranModel->getRiwayatPenyinaran();
+        return view('firebase.riwayatpenyinaran.index', compact('data'));
     }
-    return view('firebase.riwayatpenyinaran.index', compact('data'));
-}
 
 }

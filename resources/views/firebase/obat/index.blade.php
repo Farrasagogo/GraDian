@@ -11,7 +11,8 @@
                 </a>
             </div>
         </div>
-        <div class="row" style="margin-top: 20px;">
+       
+        <div class="row justify-content-center align-items-center" style="margin-top: 20px;">
             <!-- Panel 1 -->
             <div class="col-md-6">
                 <div class="card mb-4">
@@ -185,7 +186,7 @@
                 </div>
             </div>
             
-            <div class="row" style="margin-top: 20px;">
+            <div class="row justify-content-center align-items-center" style="margin-top: 20px;">
                 <!-- Panel 1 -->
                 <div class="col-md-6">
                     <div class="card mb-4 " >

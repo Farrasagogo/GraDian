@@ -4,37 +4,21 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
-use Kreait\Firebase\Contract\Firestore;
+
+use App\Models\Firebase\RiwayatPenyiramanModel;
 
 class RiwayatPenyiraman extends Controller
 {
-    protected $database;
-    protected $firestore;
-    
+    protected $riwayatPenyiramanModel;
 
-    public function __construct(Database $database, Firestore $firestore)
+    public function __construct(RiwayatPenyiramanModel $riwayatPenyiramanModel)
     {
-        $this->database = $database;
-        $this->firestore = $firestore;
-
-        
+        $this->riwayatPenyiramanModel = $riwayatPenyiramanModel;
     }
-    
+
     public function index()
-{
-    $firestoreDatabase = $this->firestore->database();
-    $collection = $firestoreDatabase->collection('siram_log');
-    $documents = $collection->documents();
-    $documents = $collection->orderBy('dateAndTime', 'DESC')->documents();
-    $data = [];
-    foreach ($documents as $document) {
-        $data[] = [
-            'dateAndTime' => $document->data()['dateAndTime'],
-            'condition' => $document->data()['condition'],
-        ];
+    {
+        $data = $this->riwayatPenyiramanModel->getRiwayatPenyiraman();
+        return view('firebase.riwayatpenyiraman.index', compact('data'));
     }
-    return view('firebase.riwayatpenyiraman.index', compact('data'));
-}
-
 }
