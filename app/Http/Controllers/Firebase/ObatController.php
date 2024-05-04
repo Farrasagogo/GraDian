@@ -4,85 +4,41 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
-use Kreait\Firebase\Contract\Firestore;
+use App\Models\Firebase\ObatModel;
 
 
 class ObatController extends Controller
 {
-    protected $database;
-    protected $firestore;
-    
+    protected $obatModel;
 
-    public function __construct(Database $database, Firestore $firestore)
+    public function __construct(ObatModel $obatModel)
     {
-        $this->database = $database;
-        $this->firestore = $firestore;
-
-        
+        $this->obatModel = $obatModel;
     }
-    public function index() {
-        $reference = $this->database->getReference('obatauto');
-        $isChecked = $reference->getValue();
+
+    public function index()
+    {
+        $isChecked = $this->obatModel->getObatautoStatus();
         return view('firebase.obat.index', compact('isChecked'));
     }
 
     public function updateFirebase(Request $request)
-    { $timezone = new \DateTimeZone('Asia/Jakarta');
-        $dateTime = new \DateTime('now', $timezone);
-        $dateAndTime = $dateTime->format('Y-m-d H:i:s');
-        try {
-            $reference = $this->database->getReference('sirampesti');
-            $reference->set(true);
-            $condition = 'Penyiraman Manual Pestisida';
-            $firestoreDatabase = $this->firestore->database();
-            $collectionReference = $firestoreDatabase->collection('obat_log'); 
-            $collectionReference->add([
-                'dateAndTime' => $dateAndTime,
-                'condition' => $condition
-            ]);
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
-        }
+    {
+        $result = $this->obatModel->updateFirebaseManualPestisida();
+        return response()->json($result);
     }
 
     public function updateFirebase2(Request $request)
-    { $timezone = new \DateTimeZone('Asia/Jakarta');
-        $dateTime = new \DateTime('now', $timezone);
-        $dateAndTime = $dateTime->format('Y-m-d H:i:s');
-        try {
-            $reference = $this->database->getReference('siramfungi');
-            $reference->set(true);
-            $condition = 'Penyiraman Manual Fungisida';
-            $firestoreDatabase = $this->firestore->database();
-            $collectionReference = $firestoreDatabase->collection('obat_log'); 
-            $collectionReference->add([
-                'dateAndTime' => $dateAndTime,
-                'condition' => $condition
-            ]);
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
-        }
+    {
+        $result = $this->obatModel->updateFirebaseManualFungisida();
+        return response()->json($result);
     }
 
     public function updateobatauto(Request $request)
-{
-    $timezone = new \DateTimeZone('Asia/Jakarta');
-    $dateTime = new \DateTime('now', $timezone);
-    $dateAndTime = $dateTime->format('Y-m-d H:i:s');
-
-    try {
+    {
         $isChecked = $request->input('isChecked');
-        $reference = $this->database->getReference('obatauto');
-        $reference->set($isChecked);
-    
-        return response()->json(['success' => true]);
-    } catch (\Exception $e) {
-        // Return a JSON response with an error message if an exception occurs
-        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        $result = $this->obatModel->updateObatauto($isChecked);
+        return response()->json($result);
     }
-}
  
 }
