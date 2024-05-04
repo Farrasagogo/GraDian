@@ -24,20 +24,20 @@
                                 <option value="Selasa" @if($data['tipe_jadwal'] == 'Selasa') selected @endif>Selasa</option>
                                 <option value="Rabu" @if($data['tipe_jadwal'] == 'Rabu') selected @endif>Rabu</option>
                                 <option value="Kamis" @if($data['tipe_jadwal'] == 'Kamis') selected @endif>Kamis</option>
-                                <option value="Jumat" @if($data['tipe_jadwal'] == 'Jumat') selected @endif>Jumat</option>
+                                <option value="Jum'at" @if($data['tipe_jadwal'] == "Jum'at") selected @endif>Jum'at</option>
                                 <option value="Sabtu" @if($data['tipe_jadwal'] == 'Sabtu') selected @endif>Sabtu</option>
                                 <option value="Minggu" @if($data['tipe_jadwal'] == 'Minggu') selected @endif>Minggu</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="detail">Detail</label>
-                            <input type="number" class="form-control" id="detail" name="detail" value="{{ $data['detail'] }}" required>
+                            <label for="detail">Deskripsi</label>
+                            <textarea class="form-control" id="detail" name="detail" required maxlength="150" ></textarea>
                         </div>
                         <div class="form-group">
                             <label for="jam_obat">Jam Obat</label>
                             <input type="time" class="form-control" id="jam_obat" name="jam_obat" value="{{ $data['jam_obat'] }}" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Perbarui Jadwal</button>
                     </form>
                 </div>
        

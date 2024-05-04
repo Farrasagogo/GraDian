@@ -7,10 +7,10 @@
             <th scope="col">No</th>
             <th scope="col">Tipe Obat</th>
             <th scope="col">Hari</th>
-            <th scope="col">Detail</th>
+            <th scope="col">Deskripsi</th>
             <th scope="col">Jam Obat</th>
             <th scope="col"><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addModal">
-                Add Item
+                Tambah Jadwal
             </button></th>
         </tr>
     </thead>
@@ -25,12 +25,12 @@
                 <td>{{ $item['jam_obat'] }}</td>
                 <td>
                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal-{{ $item['id'] }}">
-                        Edit
+                        Mengubah Jadwal
                     </button>
                     <form action="{{ route('delete', $item['id']) }}" method="POST" style="display: inline-block;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Menghapus Jadwal</button>
                     </form>
                 </td>
             </tr>
@@ -38,7 +38,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+                            <h5 class="modal-title" id="editModalLabel"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -55,7 +55,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Add New Item</h5>
+                        <h5 class="modal-title" id="addModalLabel">Tambah Jadwal Baru</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -63,29 +63,37 @@
                     <div class="modal-body">
                         <form id="addForm" method="POST" action="{{ route('store') }}">
                             @csrf
+                            @method('POST')
                             <div class="form-group">
                                 <label for="tipe_obat">Tipe Obat</label>
                                 <select class="form-control" id="tipe_obat" name="tipe_obat" required>
-                                    <option value="" disabled selected>Select Tipe Obat</option>
-                                    <!-- Add options here -->
+                                    <option value="" disabled selected>Pilih Obat</option>
+                                    <option value="Pestisida" selected>Pestisida</option>
+                                    <option value="Fungisida" selected>Fungisida</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="tipe_jadwal">Hari</label>
                                 <select class="form-control" id="tipe_jadwal" name="tipe_jadwal" required>
-                                    <option value="" disabled selected>Select Hari</option>
-                                    <!-- Add options here -->
+                                    <option value="" disabled selected>Pilih Hari</option>
+                                    <option value="Senin" selected>Senin</option>
+                                    <option value="Selasa" selected>Selasa</option>
+                                    <option value="Rabu" selected>Rabu</option>
+                                    <option value="Kamis" selected>Kamis</option>
+                                    <option value="Jum'at" selected>Jumat</option>
+                                    <option value="Sabtu" selected>Sabtu</option>
+                                    <option value="Minggu" selected>Minggu</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="detail">Detail</label>
-                                <input type="number" class="form-control" id="detail" name="detail" required>
+                                <label for="detail">Deskripsi</label>
+                                <textarea class="form-control" id="detail" name="detail" required maxlength="150"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="jam_obat">Jam Obat</label>
                                 <input type="time" class="form-control" id="jam_obat" name="jam_obat" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Item</button>
+                            <button type="submit" class="btn btn-primary">Tambah Jadwal</button>
                         </form>
                     </div>
                 </div>

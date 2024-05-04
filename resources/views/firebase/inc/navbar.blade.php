@@ -47,8 +47,9 @@
                         </a>
                         <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Monitoring dan Controlling Penyiraman Pestisida</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">History Penyiraman Pestisida</a>
+                                <a class="nav-link" href="/obat">Controlling Penyiraman Pestisida dan Fungisida</a>
+                                <a class="nav-link" href="/riwayatobat">History Penyiraman Pestisida dan Fungisida</a>
+                                <a class="nav-link" href="/jadwal">Penjadwalan Penyiraman Pestisida dan Fungisida</a>
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Menu Penyinaran</div>

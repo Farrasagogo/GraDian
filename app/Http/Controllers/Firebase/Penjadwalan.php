@@ -20,6 +20,7 @@ class Penjadwalan extends Controller
 
         
     }
+    
         public function index()
         {
 
@@ -40,7 +41,8 @@ class Penjadwalan extends Controller
     
             return view('firebase.jadwal.index', compact('data'));
         }
-                public function edit($id)
+
+        public function edit($id)
         {
             $firestoreDatabase = $this->firestore->database();
             $collection = $firestoreDatabase->collection('jadwal');
@@ -53,7 +55,7 @@ class Penjadwalan extends Controller
             } else {
                 return redirect()->back()->with('error', 'Data not found');
             }
-}
+        }
     
         public function update(Request $request, $id)
         {
@@ -93,20 +95,20 @@ class Penjadwalan extends Controller
         }
         
         public function store(Request $request)
-{
-    $firestoreDatabase = $this->firestore->database();
-    $collection = $firestoreDatabase->collection('jadwal');
+        {
+            $firestoreDatabase = $this->firestore->database();
+            $collection = $firestoreDatabase->collection('jadwal');
 
-    $data = [
-        'tipe_obat' => $request->input('tipe_obat'),
-        'tipe_jadwal' => $request->input('tipe_jadwal'),
-        'detail' => $request->input('detail'),
-        'jam_obat' => $request->input('jam_obat'),
-    ];
+            $data = [
+                'tipe_obat' => $request->input('tipe_obat'),
+                'tipe_jadwal' => $request->input('tipe_jadwal'),
+                'detail' => $request->input('detail'),
+                'jam_obat' => $request->input('jam_obat'),
+            ];
 
-    $collection->add($data);
+            $collection->add($data);
 
-    return redirect()->route('firebase.jadwal.index')->with('success', 'Data added successfully');
-}
-  
+            return redirect()->route('jadwal')->with('success', 'Data added successfully');
+        }
+        
 }
