@@ -15,9 +15,13 @@ class Kernel extends ConsoleKernel
       
     ];
     protected function schedule(Schedule $schedule)
-    {
+    {   
+        
         $schedule->command('demo:cron')->hourly();
         $schedule->command('hapus:data')->daily();
+        $schedule->command('schedule:obat')->everyMinute();
+
+
     }
 
     /**
