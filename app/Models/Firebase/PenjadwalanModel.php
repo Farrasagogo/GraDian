@@ -22,12 +22,21 @@ class PenjadwalanModel extends Model
         $firestoreDatabase = $this->firestore->database();
         $collection = $firestoreDatabase->collection('jadwal');
         $documents = $collection->documents();
+        $dayTranslations = [
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+            'Sunday' => 'Minggu'
+        ];
         $data = [];
 
         foreach ($documents as $document) {
             $data[] = [
                 'tipe_obat' => $document->data()['tipe_obat'],
-                'tipe_jadwal' => $document->data()['tipe_jadwal'],
+                'tipe_jadwal' => $dayTranslations[$document->data()['tipe_jadwal']],
                 'detail' => $document->data()['detail'],
                 'jam_obat' => $document->data()['jam_obat'],
                 'id' => $document->id(),

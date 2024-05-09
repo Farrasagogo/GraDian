@@ -40,15 +40,17 @@ class scheduleobat extends Command
             // Get current day and time
             $timezone = new \DateTimeZone('Asia/Jakarta');
             $dateTime = new \DateTime('now', $timezone);
-            $currentDay = $dateTime->format('l'); // Full textual representation of the day
-            $currentTime = $dateTime->format('H:i'); // 24-hour format of an hour and minutes
-    
+            $dateTime->modify('+1 day');
+            $currentDay = $dateTime->format('l');
+            $currentTime = $dateTime->format('H:i'); 
+            
+            echo "Current Day: $currentDay\n";
+            echo "Current Time: $currentTime\n";
             // Query Firestore collection "jadwal"
             $firestoreDatabase = $this->firestore->database();
             $collectionReference = $firestoreDatabase->collection('jadwal')
                 ->where('tipe_jadwal', '==', $currentDay)
-                ->where('jam_obat', '==', $currentTime)
-                ->where('tipe_obat', '==', 'Fungisida');
+                ->where('jam_obat', '==', $currentTime);
     
             $documents = $collectionReference->documents();
     
@@ -63,6 +65,8 @@ class scheduleobat extends Command
             }
         } catch (\Exception $e) {
             $this->error($e->getMessage());
+
+            
         }
     }
 }

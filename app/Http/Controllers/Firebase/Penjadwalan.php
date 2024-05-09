@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Kreait\Firebase\Contract\Database;
-use Kreait\Firebase\Contract\Firestore;
+
 use App\Models\Firebase\PenjadwalanModel;
 
 class Penjadwalan extends Controller

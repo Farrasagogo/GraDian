@@ -19,7 +19,9 @@ class Kernel extends ConsoleKernel
         
         $schedule->command('demo:cron')->hourly();
         $schedule->command('hapus:data')->daily();
-        $schedule->command('schedule:obat')->everyMinute();
+        $schedule->command('schedule:obat')
+                ->everyMinute()
+                ->sendOutputTo("llog/test.txt");;
 
 
     }

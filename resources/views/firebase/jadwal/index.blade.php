@@ -76,13 +76,13 @@
                                 <label for="tipe_jadwal">Hari</label>
                                 <select class="form-control" id="tipe_jadwal" name="tipe_jadwal" required>
                                     <option value="" disabled selected>Pilih Hari</option>
-                                    <option value="Senin" selected>Senin</option>
-                                    <option value="Selasa" selected>Selasa</option>
-                                    <option value="Rabu" selected>Rabu</option>
-                                    <option value="Kamis" selected>Kamis</option>
-                                    <option value="Jum'at" selected>Jumat</option>
-                                    <option value="Sabtu" selected>Sabtu</option>
-                                    <option value="Minggu" selected>Minggu</option>
+                                    <option value="Monday" selected>Senin</option>
+                                    <option value="Tuesday" selected>Selasa</option>
+                                    <option value="Wednesday" selected>Rabu</option>
+                                    <option value="Thursday" selected>Kamis</option>
+                                    <option value="Friday" selected>Jumat</option>
+                                    <option value="Saturday" selected>Sabtu</option>
+                                    <option value="Sunday" selected>Minggu</option>
                                 </select>
                             </div>
                             <div class="form-group">
