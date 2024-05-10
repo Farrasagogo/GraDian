@@ -37,36 +37,52 @@ class scheduleobat extends Command
     public function handle()
     {
         try {
-            // Get current day and time
+            // Dapatkan hari dan waktu saat ini
             $timezone = new \DateTimeZone('Asia/Jakarta');
             $dateTime = new \DateTime('now', $timezone);
-            $dateTime->modify('+1 day');
+            $dateTime->modify('+1 hari');
             $currentDay = $dateTime->format('l');
-            $currentTime = $dateTime->format('H:i'); 
-            
-            echo "Current Day: $currentDay\n";
-            echo "Current Time: $currentTime\n";
-            // Query Firestore collection "jadwal"
+            $currentTime = $dateTime->format('H:i');
+        
+            echo "Hari ini: $currentDay\n";
+            echo "Waktu Saat Ini: $currentTime\n";
+        
+            // Kueri koleksi Firestore "jadwal"
             $firestoreDatabase = $this->firestore->database();
             $collectionReference = $firestoreDatabase->collection('jadwal')
                 ->where('tipe_jadwal', '==', $currentDay)
                 ->where('jam_obat', '==', $currentTime);
-    
+        
             $documents = $collectionReference->documents();
-    
-            // Check if any matching documents exist
-            if (!$documents->isEmpty()) {
-                // Send data to Firebase Realtime Database
-                $this->database->getReference('jadwalobat')->set(true);
-    
-                $this->info('Jadwal obat matched. Sent value to Firebase Realtime Database.');
-            } else {
-                $this->info('No matching jadwal obat found.');
+        
+            foreach ($documents as $document) {
+                $data = $document->data();
+                $tipeObat = $data['tipe_obat'];
+                $dateAndTime = $dateTime->format('Y-m-d H:i:s');
+
+        
+                if ($tipeObat === 'Pestisida') {
+                    $reference = $this->database->getReference('jadwalobatpestisida');
+                    $reference->set(true);
+
+                    $obatLogCollection = $firestoreDatabase->collection('obat_log');
+                    $obatLogCollection->add([
+                        'condition' => 'Penjadwalan Penyiraman Pestisida',
+                        'dateAndTime' => $dateAndTime,
+                    ]);
+                } elseif ($tipeObat === 'Fungisida') {
+                    $reference = $this->database->getReference('jadwalobatfungisida');
+                    $reference->set(true);
+
+                    $obatLogCollection = $firestoreDatabase->collection('obat_log');
+                    $obatLogCollection->add([
+                        'condition' => 'Penjadwalan Penyiraman Fungisida',
+                        'dateAndTime' => $dateAndTime,
+                    ]);
+                }
             }
         } catch (\Exception $e) {
-            $this->error($e->getMessage());
-
-            
+            echo "Terjadi kesalahan: " . $e->getMessage();
         }
     }
 }
