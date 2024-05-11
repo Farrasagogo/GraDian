@@ -33,7 +33,21 @@ class Penjadwalan extends Controller
 
     public function update(Request $request, $id)
     {
-        $result = $this->penjadwalanModel->updateJadwal($request->all(), $id);
+        // Validate the request data
+        $validatedData = $request->validate([
+            'tipe_obat' => 'required|string',
+            'tipe_jadwal' => 'required|string',
+            'detail' => 'required|string',
+            'jam_obat' => 'required|string',
+        ]);
+
+        // Check if any required field is null
+        if ($this->checkNotNull($validatedData)) {
+            return redirect()->back()->with('error', 'All fields are required.');
+        }
+
+        $result = $this->penjadwalanModel->updateJadwal($validatedData, $id);
+
         if ($result) {
             return redirect()->route('jadwal')->with('success', 'Data updated successfully');
         } else {
@@ -45,15 +59,34 @@ class Penjadwalan extends Controller
     {
         $result = $this->penjadwalanModel->deleteJadwal($id);
         if ($result) {
-            return redirect()->back()->with('success', 'Data deleted successfully');
+            return response()->json(['success' => true, 'message' => 'Jadwal berhasil dihapus']);
         } else {
-            return redirect()->back()->with('error', 'Data not found');
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan']);
         }
     }
-
+    
     public function store(Request $request)
     {
-        $this->penjadwalanModel->storeJadwal($request->all());
+        // Validate the request data
+        $validatedData = $request->validate([
+            'tipe_obat' => 'required|string',
+            'tipe_jadwal' => 'required|string',
+            'detail' => 'required|string',
+            'jam_obat' => 'required|string',
+        ]);
+
+        // Check if any required field is null
+        if ($this->checkNotNull($validatedData)) {
+            return redirect()->back()->with('error', 'All fields are required.');
+        }
+
+        $this->penjadwalanModel->storeJadwal($validatedData);
+
         return redirect()->route('jadwal')->with('success', 'Data added successfully');
+    }
+
+    private function checkNotNull($data)
+    {
+        return is_null($data['tipe_obat']) || is_null($data['tipe_jadwal']) || is_null($data['detail']) || is_null($data['jam_obat']);
     }
 }

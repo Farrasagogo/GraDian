@@ -44,9 +44,7 @@ class scheduleobat extends Command
             $currentDay = $dateTime->format('l');
             $currentTime = $dateTime->format('H:i');
         
-            echo "Hari ini: $currentDay\n";
-            echo "Waktu Saat Ini: $currentTime\n";
-        
+    
             // Kueri koleksi Firestore "jadwal"
             $firestoreDatabase = $this->firestore->database();
             $collectionReference = $firestoreDatabase->collection('jadwal')

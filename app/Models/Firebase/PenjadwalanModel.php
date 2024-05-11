@@ -99,6 +99,7 @@ class PenjadwalanModel extends Model
     {
         $firestoreDatabase = $this->firestore->database();
         $collection = $firestoreDatabase->collection('jadwal');
+
         $collection->add([
             'tipe_obat' => $data['tipe_obat'],
             'tipe_jadwal' => $data['tipe_jadwal'],
@@ -106,4 +107,5 @@ class PenjadwalanModel extends Model
             'jam_obat' => $data['jam_obat'],
         ]);
     }
+    
 }
