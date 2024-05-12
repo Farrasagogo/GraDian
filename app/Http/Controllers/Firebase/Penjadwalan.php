@@ -23,17 +23,13 @@ class Penjadwalan extends Controller
     }
 
     public function edit($id)
-    {
-        $data = $this->penjadwalanModel->getJadwalById($id);
-        if ($data) {
-            return view('firebase.jadwal.edit', compact('data'));
-        } else {
-            return redirect()->back()->with('error', 'Data not found');        }
-    }
-
-    public function update(Request $request, $id)
 {
-    // Validate the request data
+    $data = $this->penjadwalanModel->getJadwalById($id);
+    return view('edit', compact('data'));
+}
+
+public function update(Request $request, $id)
+{
     $validatedData = $request->validate([
         'tipe_obat' => 'required|string',
         'tipe_jadwal' => 'required|string',
@@ -41,31 +37,16 @@ class Penjadwalan extends Controller
         'jam_obat' => 'required|string',
     ]);
 
-    // Check if any required field is null
     if ($this->checkNotNull($validatedData)) {
-        return response()->json([
-            'success' => false,
-            'errors' => [
-                'general' => ['All fields are required.']
-            ]
-        ], 422);
+        return redirect()->back()->with('error', 'All fields are required.');
     }
 
-    $result = $this->penjadwalanModel->updateJadwal($validatedData, $id);
-    if ($result) {
-        return response()->json([
-            'success' => true,
-            'redirectRoute' => route('jadwal'),
-            'successMessage' => 'Jadwal berhasil diperbarui',
-        ]);
-    } else {
-        return response()->json([
-            'success' => false,
-            'errors' => [
-                'general' => ['Data not found']
-            ]
-        ], 404);
-    }
+    $this->penjadwalanModel->updateJadwal($id, $validatedData);
+    return response()->json([
+        'success' => true,
+        'redirectRoute' => 'jadwal',
+        'successMessage' => 'Jadwal berhasil diperbarui',
+    ]);
 }
 
     public function destroy($id)

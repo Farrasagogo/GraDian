@@ -127,19 +127,86 @@
             <div class="modal fade" id="editModal-{{ $item['id'] }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title" id="editModalLabel"></h5>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Jadwal</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <!-- Include the edit form here -->
-                            @include('firebase.jadwal.edit', ['data' => $item])
+                            <div id="form-responses-edit"></div>
+                            <form id="editForm-{{ $item['id'] }}">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="tipe_obat">Tipe Obat</label>
+                                    <select class="form-control" id="tipe_obat" name="tipe_obat" required>
+                                        <option value="" disabled>Pilih Obat</option>
+                                        <option value="Pestisida" @if($item['tipe_obat'] === 'Pestisida') selected @endif>Pestisida</option>
+                                        <option value="Fungisida" @if($item['tipe_obat'] === 'Fungisida') selected @endif>Fungisida</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tipe_jadwal">Hari</label>
+                                    <select class="form-control" id="tipe_jadwal" name="tipe_jadwal" required>
+                                        <option value="" disabled>Pilih Hari</option>
+                                        <option value="Monday" @if($item['tipe_jadwal'] === 'Monday') selected @endif>Senin</option>
+                                        <option value="Tuesday" @if($item['tipe_jadwal'] === 'Tuesday') selected @endif>Selasa</option>
+                                        <option value="Wednesday" @if($item['tipe_jadwal'] == 'Wednesday') selected @endif>Rabu</option>
+                                        <option value="Thursday" @if($item['tipe_jadwal'] == 'Thursday') selected @endif>Kamis</option>
+                                        <option value="Friday" @if($item['tipe_jadwal'] == "Friday") selected @endif>Jum'at</option>
+                                        <option value="Saturday" @if($item['tipe_jadwal'] == 'Saturday') selected @endif>Sabtu</option>
+                                        <option value="Sunday" @if($item['tipe_jadwal'] == 'Sunday') selected @endif>Minggu</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="detail">Deskripsi</label>
+                                    <textarea class="form-control" id="detail" name="detail" required maxlength="150">{{ $item['detail'] }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jam_obat">Jam Obat</label>
+                                    <input type="time" class="form-control" id="jam_obat" name="jam_obat" required value="{{ $item['jam_obat'] }}">
+                                </div>
+                                <button type="button" class="btn btn-primary btn-block" id="updateForm-{{ $item['id'] }}">Update Jadwal</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var editForms = document.querySelectorAll('form[id^="editForm-"]');
+            
+                editForms.forEach(function(form) {
+                    var formId = form.id;
+                    var submitButton = document.getElementById(`updateForm-${formId.split('-')[1]}`);
+                    var formResponse = document.getElementById('form-responses-edit');
+            
+                    submitButton.addEventListener('click', function() {
+                        var formData = new FormData(form);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', `{{ route('jadwal.update', '__PLACEHOLDER__') }}`.replace('__PLACEHOLDER__', formId.split('-')[1]), true);
+                        xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status === 200) {
+                                    var response = JSON.parse(xhr.responseText);
+                                    if (response.success) {
+                                        window.location.reload();
+                                        alert('Sukses, jadwal berhasil diperbarui');
+                                    } else {
+                                        window.location.reload();
+                                        alert('Gagal, jadwal gagal diperbarui');
+                                    }
+                                } else {
+                                    formResponse.innerHTML = '<div class="alert alert-danger">Request failed: ' + xhr.status + '</div>';
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                    });
+                });
+            });
+            </script>
         @endforeach
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
