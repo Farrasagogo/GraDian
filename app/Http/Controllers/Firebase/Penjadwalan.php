@@ -32,28 +32,41 @@ class Penjadwalan extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'tipe_obat' => 'required|string',
-            'tipe_jadwal' => 'required|string',
-            'detail' => 'required|string',
-            'jam_obat' => 'required|string',
-        ]);
+{
+    // Validate the request data
+    $validatedData = $request->validate([
+        'tipe_obat' => 'required|string',
+        'tipe_jadwal' => 'required|string',
+        'detail' => 'required|string',
+        'jam_obat' => 'required|string',
+    ]);
 
-        // Check if any required field is null
-        if ($this->checkNotNull($validatedData)) {
-            return redirect()->back()->with('error', 'All fields are required.');
-        }
-
-        $result = $this->penjadwalanModel->updateJadwal($validatedData, $id);
-
-        if ($result) {
-            return redirect()->route('jadwal')->with('success', 'Data updated successfully');
-        } else {
-            return redirect()->back()->with('error', 'Data not found');
-        }
+    // Check if any required field is null
+    if ($this->checkNotNull($validatedData)) {
+        return response()->json([
+            'success' => false,
+            'errors' => [
+                'general' => ['All fields are required.']
+            ]
+        ], 422);
     }
+
+    $result = $this->penjadwalanModel->updateJadwal($validatedData, $id);
+    if ($result) {
+        return response()->json([
+            'success' => true,
+            'redirectRoute' => route('jadwal'),
+            'successMessage' => 'Jadwal berhasil diperbarui',
+        ]);
+    } else {
+        return response()->json([
+            'success' => false,
+            'errors' => [
+                'general' => ['Data not found']
+            ]
+        ], 404);
+    }
+}
 
     public function destroy($id)
     {
@@ -81,8 +94,13 @@ class Penjadwalan extends Controller
         }
 
         $this->penjadwalanModel->storeJadwal($validatedData);
+        
 
-        return redirect()->route('jadwal')->with('success', 'Data added successfully');
+        return response()->json([
+            'success' => true,
+            'redirectRoute' => 'jadwal', 
+            'successMessage' => 'Jadwal berhasil ditambahkan',
+        ]);
     }
 
     private function checkNotNull($data)

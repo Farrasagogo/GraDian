@@ -196,29 +196,34 @@
                         <div class="card-body d-flex justify-content-center align-items-center" style="background-color: white;">
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                 var checkboxes = document.querySelectorAll('.switch_2');
-                                 checkboxes.forEach(function(checkbox) {
-                                     checkbox.addEventListener('change', function() {
-                                         var isChecked = this.checked;
-                                         var xhr = new XMLHttpRequest();
-                                         xhr.open('POST', "/updateobatauto", true);
-                                         xhr.setRequestHeader('Content-Type', 'application/json');
-                                         xhr.onreadystatechange = function() {
-                                             if (xhr.readyState === XMLHttpRequest.DONE) {
-                                                 if (xhr.status === 200) {
-                                                     console.log(xhr.responseText);                                            
-                                                 } else {
-                                                     console.error('Request failed: ' + xhr.status);
-                                                 }
-                                             }
-                                         };
-                                         xhr.send(JSON.stringify({ isChecked: isChecked }));
-                                     });
-                                 });
-                             });
-    
-                         </script>
-                        <input type="checkbox" class="switch_2" <?php echo $isChecked ? 'checked' : ''; ?>>
+                                  var checkboxes = document.querySelectorAll('.switch_2');
+                                  checkboxes.forEach(function(checkbox) {
+                                    checkbox.addEventListener('change', function() {
+                                      var isChecked = this.checked;
+                                      var xhr = new XMLHttpRequest();
+                                      xhr.open('POST', "/updateobatauto", true);
+                                      xhr.setRequestHeader('Content-Type', 'application/json');
+                                      xhr.onreadystatechange = function() {
+                                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                                          if (xhr.status === 200) {
+                                            console.log(xhr.responseText);
+                                            // Show popup message based on checkbox state
+                                            if (isChecked) {
+                                              alert("Otomatisasi Diaktifkan");
+                                            } else {
+                                              alert("Otomatisasi Dinonaktifkan");
+                                            }
+                                          } else {
+                                            console.error('Request failed: ' + xhr.status);
+                                          }
+                                        }
+                                      };
+                                      xhr.send(JSON.stringify({ isChecked: isChecked }));
+                                    });
+                                  });
+                                });
+                              </script>
+                              <input type="checkbox" class="switch_2" <?php echo $isChecked ? 'checked' : ''; ?>>
                    <style>
                    .wrapper{
                        display: -webkit-box;

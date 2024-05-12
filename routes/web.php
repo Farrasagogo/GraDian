@@ -14,7 +14,7 @@ use App\Http\Controllers\Firebase\Penjadwalan;
 use App\Http\Controllers\Firebase\RiwayatObat;
 
 Route::post('jadwal/store', [Penjadwalan::class, 'store'])->name('store');
-Route::put('jadwal/update/{id}', [Penjadwalan::class, 'update'])->name('update');
+Route::post('/jadwal/update/{id}', [Penjadwalan::class, 'update'])->name('jadwal.update');
 Route::get('jadwal/edit/{id}', [Penjadwalan::class, 'edit'])->name('edit');
 Route::delete('jadwal/delete/{id}', [Penjadwalan::class, 'destroy'])->name('delete');
 Route::get('/jadwal', [Penjadwalan::class, 'index'])->name('jadwal');

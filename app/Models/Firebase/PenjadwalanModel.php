@@ -61,26 +61,30 @@ class PenjadwalanModel extends Model
         return false;
     }
 
-    public function updateJadwal($data, $id)
-    {
+    public function updateJadwal($data, $id) {
         $firestoreDatabase = $this->firestore->database();
         $collection = $firestoreDatabase->collection('jadwal');
         $document = $collection->document($id);
-
         if ($document->snapshot()->exists()) {
-            $document->set([
-                'tipe_obat' => $data['tipe_obat'],
-                'tipe_jadwal' => $data['tipe_jadwal'],
-                'detail' => $data['detail'],
-                'jam_obat' => $data['jam_obat'],
-            ], ['merge' => true]);
-
+            $updateData = [];
+            if (isset($data['tipe_obat'])) {
+                $updateData['tipe_obat'] = $data['tipe_obat'];
+            }
+            if (isset($data['tipe_jadwal'])) {
+                $updateData['tipe_jadwal'] = $data['tipe_jadwal'];
+            }
+            if (isset($data['detail'])) {
+                $updateData['detail'] = $data['detail'];
+            }
+            if (isset($data['jam_obat'])) {
+                $updateData['jam_obat'] = $data['jam_obat'];
+            }
+            $document->update($updateData);
             return true;
         }
-
         return false;
     }
-
+    
     public function deleteJadwal($id)
     {
         $firestoreDatabase = $this->firestore->database();
