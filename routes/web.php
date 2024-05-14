@@ -12,6 +12,7 @@ use App\Http\Controllers\Firebase\RiwayatPenyinaran;
 use App\Http\Controllers\Firebase\ObatController;
 use App\Http\Controllers\Firebase\Penjadwalan;
 use App\Http\Controllers\Firebase\RiwayatObat;
+use App\Http\Controllers\Firebase\AuthController;
 
 Route::post('jadwal/store', [Penjadwalan::class, 'store'])->name('store');
 Route::post('/jadwal/update/{id}', [Penjadwalan::class, 'update'])->name('jadwal.update');
@@ -25,7 +26,7 @@ Route::patch('/update-firebaseobat', [ObatController::class, 'updateFirebase']);
 Route::get('/obat', [ObatController::class, 'index']);
 Route::get('/riwayatpenyinaran', [RiwayatPenyinaran::class, 'index']);
 Route::get('/riwayatpenyiraman', [RiwayatPenyiraman::class, 'index']);
-Route::patch('/update-firebase', [PenyiramanController::class, 'updateFirebase']);
+Route::patch('/update-firebase', [PenyiramanController::class, 'updateFirebaseSiram']);
 Route::get('riwayatldr', [RiwayatSensorLdr::class, 'index']);
 Route::get('riwayatsiram', [RiwayatSensorSiram::class, 'index']);
 Route::get('penyiraman', [PenyiramanController::class, 'index']);
@@ -34,6 +35,11 @@ Route::get('/sensor-data', [SensorController::class, 'getSensorData']);
 Route::post('/updatesinarauto', [PenyinaranController::class, 'updatesinarauto']);
 Route::post('/updatesinar', [PenyinaranController::class, 'updatesinar']);
 Route::post('/updatesiramauto', [PenyiramanController::class, 'updatesiramauto']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware("guest");
+Route::post('/login', [AuthController::class, 'login'])->middleware("guest");
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register')->middleware("guest");
+Route::post('/register', [AuthController::class, 'register']);
 Route::get('/token', function (Request $request) {
     $token = $request->session()->token();
  

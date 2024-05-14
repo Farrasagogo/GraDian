@@ -23,7 +23,7 @@ class PenyiramanController extends Controller
         return view('firebase.penyiraman.index', compact('isChecked'));
     }
 
-    public function updateFirebase(Request $request)
+    public function updateFirebaseSiram(Request $request)
     {
         $result = $this->penyiramanModel->updateFirebaseManual();
         return response()->json($result);
