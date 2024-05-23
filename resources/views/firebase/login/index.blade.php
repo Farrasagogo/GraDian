@@ -1,32 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card mt-5">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- resources/views/auth/login.blade.php -->
+
+@extends('firebase.app')
+
+@section('content')
+<form method="POST" action="{{ url('login') }}">
+    @csrf
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" required>
+        @error('email')
+            <span>{{ $message }}</span>
+        @enderror
     </div>
-</body>
-</html>
+    <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required>
+        @error('password')
+            <span>{{ $message }}</span>
+        @enderror
+    </div>
+    <button type="submit">Login</button>
+</form>
+@endsection

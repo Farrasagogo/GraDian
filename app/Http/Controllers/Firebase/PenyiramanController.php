@@ -11,7 +11,7 @@ use App\Models\Firebase\PenyiramanModel;
 class PenyiramanController extends Controller
 {
     protected $penyiramanModel;
-
+    
     public function __construct(PenyiramanModel $penyiramanModel)
     {
         $this->penyiramanModel = $penyiramanModel;

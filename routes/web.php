@@ -14,6 +14,10 @@ use App\Http\Controllers\Firebase\Penjadwalan;
 use App\Http\Controllers\Firebase\RiwayatObat;
 use App\Http\Controllers\Firebase\AuthController;
 
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
+
 Route::post('jadwal/store', [Penjadwalan::class, 'store'])->name('store');
 Route::post('/jadwal/update/{id}', [Penjadwalan::class, 'update'])->name('jadwal.update');
 Route::get('jadwal/edit/{id}', [Penjadwalan::class, 'edit'])->name('edit');
@@ -29,23 +33,21 @@ Route::get('/riwayatpenyiraman', [RiwayatPenyiraman::class, 'index']);
 Route::patch('/update-firebase', [PenyiramanController::class, 'updateFirebaseSiram']);
 Route::get('riwayatldr', [RiwayatSensorLdr::class, 'index']);
 Route::get('riwayatsiram', [RiwayatSensorSiram::class, 'index']);
-Route::get('penyiraman', [PenyiramanController::class, 'index']);
+
 Route::get('penyinaran', [PenyinaranController::class, 'index']);
 Route::get('/sensor-data', [SensorController::class, 'getSensorData']);
 Route::post('/updatesinarauto', [PenyinaranController::class, 'updatesinarauto']);
 Route::post('/updatesinar', [PenyinaranController::class, 'updatesinar']);
 Route::post('/updatesiramauto', [PenyiramanController::class, 'updatesiramauto']);
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware("guest");
-Route::post('/login', [AuthController::class, 'login'])->middleware("guest");
+Route::get('penyiraman', [PenyiramanController::class, 'index'])->name('penyiraman');
 
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register')->middleware("guest");
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/token', function (Request $request) {
-    $token = $request->session()->token();
- 
-    $token = csrf_token();
 
+Route::post('/logout', function () {
+    session()->flush();
+    return redirect('/login');
 });
+
+
 Route::get('/', function () {
     return view('welcome');
 });

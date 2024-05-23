@@ -23,6 +23,7 @@ class VerifyCsrfToken extends Middleware
         'jadwal/update/*',
         'jadwal/edit/*',
         'jadwal/store',
-        'register',
+        'login',
+        'logout',
     ];
 }
