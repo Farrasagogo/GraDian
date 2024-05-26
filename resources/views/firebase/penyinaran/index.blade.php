@@ -72,6 +72,7 @@
                                      var xhr = new XMLHttpRequest();
                                      xhr.open('POST', "/updatesinar", true);
                                      xhr.setRequestHeader('Content-Type', 'application/json');
+                                      xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
                                      xhr.onreadystatechange = function() {
                                          if (xhr.readyState === XMLHttpRequest.DONE) {
                                              if (xhr.status === 200) {
@@ -194,6 +195,7 @@
                                         var xhr = new XMLHttpRequest();
                                         xhr.open('POST', "/updatesinarauto", true);
                                         xhr.setRequestHeader('Content-Type', 'application/json');
+                                      xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
                                         xhr.onreadystatechange = function() {
                                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                                 if (xhr.status === 200) {

@@ -175,6 +175,7 @@
                                       var xhr = new XMLHttpRequest();
                                       xhr.open('POST', "/updatesiramauto", true);
                                       xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
                                       xhr.onreadystatechange = function() {
                                           if (xhr.readyState === XMLHttpRequest.DONE) {
                                               if (xhr.status === 200) {

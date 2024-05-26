@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
 
 class AppServiceProvider extends ServiceProvider
 {

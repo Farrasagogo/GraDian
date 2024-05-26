@@ -12,18 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'update-firebase',
-        'updatesinarauto',
-        'updatesiramauto',
-        'updatesinar',
-        'update-firebaseobat',
-        'update-firebaseobat2',
-        'updateobatauto',
-        'jadwal/delete/*',
-        'jadwal/update/*',
-        'jadwal/edit/*',
-        'jadwal/store',
-        'login',
-        'logout',
+        //
     ];
 }
