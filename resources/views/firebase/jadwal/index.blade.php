@@ -95,10 +95,15 @@
                                         if (xhr.status === 200) {
                                             $('#confirmationModal').modal('hide');
                                             showMessageModal('Success', 'Jadwal berhasil dihapus');
-                                            window.location.reload();
+                                            setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
                                         } else {
                                             $('#confirmationModal').modal('hide');
                                             showMessageModal('Error', 'Terjadi kesalahan saat menghapus jadwal.');
+                                            setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
                                         }
                                     }
                                 };
@@ -129,9 +134,6 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editModalLabel">Edit Jadwal</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                         <div class="modal-body">
                             <div id="form-responses-edit"></div>
@@ -166,56 +168,80 @@
                                     <label for="jam_obat">Jam Obat</label>
                                     <input type="time" class="form-control" id="jam_obat" name="jam_obat" required value="{{ $item['jam_obat'] }}">
                                 </div>
-                                <button type="button" class="btn btn-primary btn-block" id="updateForm-{{ $item['id'] }}">Update Jadwal</button>
+                                <br>
+                                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-primary btn-block" id="updateForm-{{ $item['id'] }}">Simpan</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-<script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var editForms = document.querySelectorAll('form[id^="editForm-"]');
             
-                editForms.forEach(function(form) {
-                    var formId = form.id;
-                    var submitButton = document.getElementById(`updateForm-${formId.split('-')[1]}`);
-                    var formResponse = document.getElementById('form-responses-edit');
-            
-                    submitButton.addEventListener('click', function() {
-                        var formData = new FormData(form);
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('POST', `{{ route('jadwal.update', '__PLACEHOLDER__') }}`.replace('__PLACEHOLDER__', formId.split('-')[1]), true);
-                        xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status === 200) {
-                                    var response = JSON.parse(xhr.responseText);
-                                    if (response.success) {
-                                        window.location.reload();
-                                        alert('Sukses, jadwal berhasil diperbarui');
-                                    } else {
-                                        window.location.reload();
-                                        alert('Gagal, jadwal gagal diperbarui');
-                                    }
-                                } else {
-                                    formResponse.innerHTML = '<div class="alert alert-danger">Request failed: ' + xhr.status + '</div>';
-                                }
-                            }
-                        };
-                        xhr.send(formData);
-                    });
-                });
-            });
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    var editForms = document.querySelectorAll('form[id^="editForm-"]');
+    var modal = document.getElementById("myModal");
+    var modalMessage = document.getElementById("modal-message");
+
+    editForms.forEach(function(form) {
+        var formId = form.id;
+        var submitButton = document.getElementById(`updateForm-${formId.split('-')[1]}`);
+
+        submitButton.addEventListener('click', function() {
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', `{{ route('jadwal.update', '__PLACEHOLDER__') }}`.replace('__PLACEHOLDER__', formId.split('-')[1]), true);
+            xhr.setRequestHeader('X-CSRF-TOKEN', "{{ csrf_token() }}");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            showMessageModal('Sukses',' jadwal berhasil diperbarui');
+                            setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
+                        } else {
+                            showMessageModal('Gagal',' jadwal gagal diperbarui');
+                            setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
+                        }
+                    } else {
+                        formResponse.innerHTML = '<div class="alert alert-danger">Request failed: ' + xhr.status + '</div>';
+                    }
+                }
+            };
+            xhr.send(formData);
+        });
+    });
+});
+
+
+
             </script>
+            <div class="modal" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modal-message"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         @endforeach
         <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addModalLabel">Tambah Jadwal Baru</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         <div id="form-responses"></div>
@@ -250,6 +276,8 @@
                                 <label for="jam_obat">Jam Obat</label>
                                 <input type="time" class="form-control" id="jam_obat" name="jam_obat" required>
                             </div>
+                            <br>
+                                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Batal</button>
                             <button type="button" class="btn btn-primary btn-block" id="submitsForm">Tambah Jadwal</button>
                         </form>
                     </div>
@@ -273,11 +301,15 @@
                         if (xhr.status === 200) {
                             var response = JSON.parse(xhr.responseText);
                             if (response.success) {
-                                window.location.reload(); 
-                                                alert('Sukses, jadwal berhasil dibuat');
+                                showMessageModal('Sukses','jadwal berhasil dibuat');
+                                                setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
                             } else {
-                                window.location.reload(); 
-                                                alert('Gagal, jadwal gagal dibuat');
+                                showMessageModal('Gagal','jadwal gagal dibuat');
+                                                setTimeout(function() {
+                                window.location.reload(); // Reload page after 2 seconds
+                            }, 750);
                             }
                         } else {
                             formResponse.innerHTML = '<div class="alert alert-danger">Request failed: ' + xhr.status + '</div>';

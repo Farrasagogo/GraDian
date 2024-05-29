@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Firebase\Users;
+use App\Models\Firebase\LupaPasswordModel;
 use Illuminate\Support\Facades\Hash;
 
 class LupaPassword extends Controller
 {
     protected $user;
 
-    public function __construct(Users $user)
+    public function __construct(LupaPasswordModel $user)
     {
         $this->user = $user;
     }
@@ -34,23 +34,9 @@ class LupaPassword extends Controller
             return redirect()->route('password.reset')->with('userId', $user['id']);
         }
 
-        return back()->withErrors(['forgot_password_key' => 'Incorrect forgot password key']);
+        return back()->withErrors(['forgot_password_key' => 'Nama ibu atau username salah']);
     }
+    
+ 
 
-    public function showResetForm(Request $request)
-    {
-        return view('firebase.ubahpassword.index')->with('userId', $request->session()->get('userId'));
-    }
-
-    public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|string',
-            'new_password' => 'required|string|min:6|confirmed',
-        ]);
-
-        $this->user->updatePassword($request->user_id, $request->new_password);
-
-        return redirect()->route('login')->with('message', 'Password reset successful!');
-    }
 }

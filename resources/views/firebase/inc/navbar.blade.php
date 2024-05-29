@@ -10,19 +10,41 @@
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{{ route('Akun') }}">Akun</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li>
+                    <a class="dropdown-item" href="#!" onclick="event.preventDefault(); $('#logoutModal').modal('show');">
+                        Logout
+                    </a>
+                </li>    
             </ul>
         </li>
     </ul>
 </nav>
-
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Logout?</h5>
+            </div>
+            <div class="modal-body">
+                Apakah anda yakin ingin keluar dari sistem?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('logout-form').submit();">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-light" style="background-color:  white; font-size:0.9375rem;  font-family: 'Open Sans', sans-serif;"  id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Home</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/dashboard">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-house" style="color: #b89bd7;"></i></div>
                             Dashboard
                         </a>
@@ -69,3 +91,22 @@
             </nav>
         </div>
         <div id="layoutSidenav_content" style="background-color: #f8f9fa">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('logout-form').submit();">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>

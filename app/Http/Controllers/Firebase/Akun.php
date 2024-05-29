@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Firebase;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Firebase\Users;
+use App\Models\Firebase\AkunModel;
 use Illuminate\Support\Facades\Hash;
 
 class Akun extends Controller
 { protected $user;
 
-    public function __construct(Users $user)
+    public function __construct(AkunModel $user)
     {
         $this->user = $user;
     }
@@ -55,5 +55,11 @@ class Akun extends Controller
         $this->user->updateProfile($userId, $data);
 
         return redirect()->route('profile')->with('message', 'Profile updated successfully!');
+    }
+    
+    public function logout(Request $request)
+    {
+        $request->session()->forget('userId');
+        return redirect('/login')->with('message', 'Logout successful!');
     }
 }
