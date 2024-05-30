@@ -18,45 +18,44 @@ class Akun extends Controller
     public function index()
     {
         $userId = session('userId');
-        $user = $this->user->getUserById($userId);
+        $user = $this->user->getDataAkun($userId);
     
         return view('firebase.akun.index', compact('user'));
     }
     public function show(Request $request)
     {
         $userId = $request->session()->get('userId');
-        $user = $this->user->getUserById($userId);
+        $user = $this->user->getDataAkun($userId);
 
         return view('firebase.akun.index', ['user' => $user]);
     }
-    public function edit(Request $request)
+    public function getEditAkun(Request $request)
     {
         $userId = $request->session()->get('userId');
-        $user = $this->user->getUserById($userId);
+        $user = $this->user->getDataAkun($userId);
 
         return view('firebase.editakun.index', ['user' => $user]);
     }
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'forgot_password_key' => 'required|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // Nullable for optional password update
-        ]);
+    public function setAkun(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'forgot_password_key' => 'required|string|max:255',
+        'password' => 'nullable|string|min:8|confirmed',
+    ]);
 
-        $userId = $request->session()->get('userId');
-        $data = $request->only(['name', 'forgot_password_key']);
-        
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
+    $userId = $request->session()->get('userId');
+    $data = $request->only(['name', 'forgot_password_key']);
 
-        $this->user->updateProfile($userId, $data);
-
-        return redirect()->route('profile')->with('message', 'Profile updated successfully!');
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->password);
     }
-    
+
+    $this->user->setDataAkun($userId, $data);
+
+    return redirect()->route('profile')->with('success', 'Sukses, data akun berhasil diperbarui!');
+}
     public function logout(Request $request)
     {
         $request->session()->forget('userId');

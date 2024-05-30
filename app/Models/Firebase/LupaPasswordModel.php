@@ -29,7 +29,7 @@ class LupaPasswordModel extends Model
         return null;
     }
 
-public function getUserByNameAndForgotPasswordKey($name, $forgotPasswordKey)
+public function getDataLupaPassword($name, $forgotPasswordKey)
     {
         $firestoreDatabase = $this->firestore->database();
         $query = $firestoreDatabase->collection('users')

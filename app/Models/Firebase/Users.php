@@ -32,7 +32,7 @@ class Users extends Model
         return $userDocument->id();
     }
 
-    public function login($name, $password)
+    public function authenticateUser($name, $password)
     {
         $firestoreDatabase = $this->firestore->database();
         $usersCollection = $firestoreDatabase->collection('users');

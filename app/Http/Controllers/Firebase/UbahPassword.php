@@ -20,16 +20,16 @@ class UbahPassword extends Controller
         return view('firebase.ubahpassword.index')->with('userId', $request->session()->get('userId'));
     }
 
-    public function resetPassword(Request $request)
+    public function setUbahPassword(Request $request)
     {
         $request->validate([
             'user_id' => 'required|string',
             'new_password' => 'required|string|min:6|confirmed',
         ]);
 
-        $this->user->updatePassword($request->user_id, $request->new_password);
+        $this->user->setDataUbahPassword($request->user_id, $request->new_password);
 
-        return redirect()->route('login')->with('message', 'Password reset successful!');
+        return redirect()->route('login')->with('success', 'Password berhasil diperbarui');
     }
 
 }

@@ -3,9 +3,10 @@
 @section('content')
 <div class="container mt-5">
     <h1 class="mb-4">Profile</h1>
-    @if (session('message'))
+
+    @if (session('success'))
         <div class="alert alert-success">
-            {{ session('message') }}
+            {{ session('success') }}
         </div>
     @endif
 

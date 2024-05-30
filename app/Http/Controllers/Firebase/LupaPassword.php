@@ -16,25 +16,25 @@ class LupaPassword extends Controller
         $this->user = $user;
     }
 
-    public function showForgotPasswordForm()
+    public function index()
     {
         return view('firebase.lupapassword.index');
     }
 
-    public function sendResetLink(Request $request)
+    public function getLupaPassword(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'forgot_password_key' => 'required|string|max:255',
         ]);
 
-        $user = $this->user->getUserByNameAndForgotPasswordKey($request->name, $request->forgot_password_key);
+        $user = $this->user->getDataLupaPassword($request->name, $request->forgot_password_key);
 
         if ($user) {
             return redirect()->route('password.reset')->with('userId', $user['id']);
         }
 
-        return back()->withErrors(['forgot_password_key' => 'Nama ibu atau username salah']);
+        return back()->withErrors(['forgot_password_key' => 'Data tidak valid']);
     }
     
  

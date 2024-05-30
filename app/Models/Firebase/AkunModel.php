@@ -16,7 +16,7 @@ class AkunModel extends Model
     {
         $this->firestore = $firestore;
     }
-    public function getUserById($userId)
+    public function getDataAkun($userId)
     {
         $firestoreDatabase = $this->firestore->database();
         $userDocument = $firestoreDatabase->collection('users')->document($userId)->snapshot();
@@ -28,7 +28,7 @@ class AkunModel extends Model
         return null;
     }
 
-    public function updateProfile($userId, $data)
+    public function setDataAkun($userId, $data)
     {
         $firestoreDatabase = $this->firestore->database();
         $userDocument = $firestoreDatabase->collection('users')->document($userId);

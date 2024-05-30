@@ -16,24 +16,27 @@ use App\Http\Controllers\Firebase\AuthController;
 use App\Http\Controllers\Firebase\Akun;
 use App\Http\Controllers\Firebase\LupaPassword;
 use App\Http\Controllers\Firebase\UbahPassword;
-use App\Http\Controllers\Firebase\Dashboard;
+use App\Http\Controllers\Firebase\Homepage;
 
 Route::get('/register', [AuthController::class, 'showRegisterForm']);
 Route::get('/login', [AuthController::class, 'showLoginForm']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/password/forgot', [LupaPassword::class, 'showForgotPasswordForm'])->name('password.forgot');
-Route::post('/password/forgot', [LupaPassword::class, 'sendResetLink'])->name('password.forgot.send');
+Route::get('/password/forgot', [LupaPassword::class, 'index'])->name('password.forgot');
+Route::post('/password/forgot', [LupaPassword::class, 'getLupaPassword'])->name('password.forgot.send');
 Route::get('/password/reset', [UbahPassword::class, 'showResetForm'])->name('password.reset');
-Route::post('/password/reset', [UbahPassword::class, 'resetPassword'])->name('password.update');
+Route::post('/password/reset', [UbahPassword::class, 'setUbahPassword'])->name('password.update');
 Route::post('/logout', [Akun::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard');
+    Route::get('/', function () {
+        return redirect('/login');
+    });
+    Route::get('/Homepage', [Homepage::class, 'index'])->name('homepage');
     Route::get('/profile', [Akun::class, 'show'])->name('profile');
-Route::get('/profile/edit', [Akun::class, 'edit'])->name('profile.edit');
-Route::get('/profile/update', [Akun::class, 'update'])->name('profile.update');
-Route::post('/profile/update', [Akun::class, 'update'])->name('profile.update');
+Route::get('/profile/edit', [Akun::class, 'getEditAkun'])->name('profile.edit');
+Route::get('/profile/update', [Akun::class, 'setAkun'])->name('profile.update');
+Route::post('/profile/update', [Akun::class, 'setAkun'])->name('profile.update');
     Route::get('/Akun', [Akun::class, 'index'])->name('Akun');
     Route::post('jadwal/store', [Penjadwalan::class, 'store'])->name('store');
     Route::post('/jadwal/update/{id}', [Penjadwalan::class, 'update'])->name('jadwal.update');
@@ -59,6 +62,3 @@ Route::post('/profile/update', [Akun::class, 'update'])->name('profile.update');
 });
 
 
-Route::get('/', function () {
-    return view('welcome');
-});

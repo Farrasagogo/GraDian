@@ -44,9 +44,9 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Home</div>
-                        <a class="nav-link" href="/dashboard">
+                        <a class="nav-link" href="/Homepage">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-house" style="color: #b89bd7;"></i></div>
-                            Dashboard
+                            Homepage
                         </a>
                         <div class="sb-sidenav-menu-heading">Menu Penyiraman</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">

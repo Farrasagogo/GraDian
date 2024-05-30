@@ -26,36 +26,40 @@ class AuthController extends Controller
     }
 
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:6',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'password' => 'required|string|min:6',
+    ]);
 
-        $userId = $this->user->register($request->name, $request->password);
+    $userId = $this->user->register($request->name, $request->password);
 
-        // Automatically log the user in after registration
+    // Store user name and ID in session
+    $request->session()->put('userId', $userId);
+    $request->session()->put('userName', $request->name);
+
+    // Redirect to dashboard after registration
+    return redirect('/penyiraman')->with('message', 'Registration successful!');
+}
+
+public function login(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string',
+        'password' => 'required|string',
+    ]);
+
+    $userId = $this->user->authenticateUser($request->name, $request->password);
+
+    if ($userId) {
+        // Store user name and ID in session
         $request->session()->put('userId', $userId);
+        $request->session()->put('userName', $request->name);
 
-        // Redirect to dashboard after registration
-        return redirect('/penyiraman')->with('message', 'Registration successful!');
+        // Redirect to dashboard after login
+        return redirect('/Homepage')->with('message', 'Login successful!');
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        $userId = $this->user->login($request->name, $request->password);
-
-        if ($userId) {
-            $request->session()->put('userId', $userId);
-            // Redirect to dashboard after login
-            return redirect('/penyiraman')->with('message', 'Login successful!');
-        }
-
-        return back()->withErrors(['error' => 'Username atau password salah'])->withInput();
-    }
+    return back()->withErrors(['error' => 'Username atau password salah'])->withInput();
+}
 }

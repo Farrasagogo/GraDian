@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Firebase\RiwayatSensorLdrModel;
 use App\Models\Firebase\RiwayatSensorSiramModel;
 
-class Dashboard extends Controller
+class Homepage extends Controller
 {
     protected $riwayatSensorSiramModel;
     protected $riwayatSensorLdrModel;
@@ -22,6 +22,6 @@ class Dashboard extends Controller
     {
         $dataLdr = $this->riwayatSensorLdrModel->getRiwayatSensorLdr();
         $dataSiram = $this->riwayatSensorSiramModel->getRiwayatSensorSiram();
-        return view('firebase.dashboard.index', compact('dataLdr', 'dataSiram'));
+        return view('firebase.homepage.index', compact('dataLdr', 'dataSiram'));
     }
 }

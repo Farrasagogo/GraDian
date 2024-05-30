@@ -17,7 +17,7 @@ class UbahPasswordModel extends Model
     {
         $this->firestore = $firestore;
     }
-    public function updatePassword($userId, $newPassword)
+    public function setDataUbahPassword($userId, $newPassword)
     {
         $firestoreDatabase = $this->firestore->database();
         $userDocument = $firestoreDatabase->collection('users')->document($userId);
